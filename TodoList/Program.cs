@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using TodoList.controllers;
-using TodoList.interfaces;
+using TodoList.Interfaces;
+
 
 namespace TodoList
 {
@@ -36,10 +37,10 @@ namespace TodoList
                         switch (extraChoice)
                         {
                             case "1":
-                                todoList.sortByDate();
+                                todoList.SortByDate();
                                 break;
                             case "2":
-                                todoList.sortByProject();
+                                todoList.SortByProject();
                                 break;
                             default:
                                 Console.WriteLine("Invalid choice. Please try again");
@@ -48,71 +49,101 @@ namespace TodoList
 
                         break;
                     case "2":
-                        Console.Write("Enter title: ");
-                        string taskTitle = Console.ReadLine();
-                        Console.Write("Enter the due date (yyyy-MM-dd): ");
-                        if (DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime dueDate))
+                        while (true)
                         {
-                            Console.Write("Is the task complete? (true/false): ");
-                            if (bool.TryParse(Console.ReadLine(), out bool isComplete))
+                            Console.Write("Enter title: ");
+                            string taskTitle = Console.ReadLine();
+                            if (string.IsNullOrWhiteSpace(taskTitle))
                             {
-                                Console.Write("Enter project: ");
-                                string project = Console.ReadLine();
-                                todoList.Add(taskTitle, dueDate, isComplete, project);
+                                Console.WriteLine("Task title cannot be empty. Please enter a valid task title.");
                             }
                             else
                             {
-                                Console.WriteLine("Invalid input for status. Please enter completed or pending.");
+                                Console.Write("Enter the due date (yyyy-MM-dd): ");
+                                if (DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime dueDate))
+                                {
+                                    Console.Write("Is the task complete? (true/false): ");
+                                    if (bool.TryParse(Console.ReadLine(), out bool isComplete))
+                                    {
+                                        Console.Write("Enter project: ");
+                                        string project = Console.ReadLine();
+                                        todoList.Add(taskTitle, dueDate, isComplete, project);
+                                        break; // Exit the while loop if all inputs are valid
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid input for status. Please enter true or false.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid date format. Please enter a valid date.");
+                                }
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid date format. Please enter a valid date.");
                         }
                         break;
                     case "3":
-                        Console.WriteLine(">> Choose an option to Task list by update(1), mark as done (2) and remove (3)");
+                        Console.WriteLine(">> Choose an option to edit Task: ");
+                        Console.WriteLine(">> (1) Update Task");
+                        Console.WriteLine(">> (2) Mark Task as Done");
+                        Console.WriteLine(">> (3) Remove Task");
                         string editChoice = Console.ReadLine();
                         switch (editChoice)
                         {
                             case "1":
-                                Console.Write("Enter the task number to update: ");
-                                if (int.TryParse(Console.ReadLine(), out int updateIndex))
+                                while (true)
                                 {
-                                    todoList.Update(updateIndex - 1);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    Console.Write("Enter the task number to update: ");
+                                    if (int.TryParse(Console.ReadLine(), out int updateIndex))
+                                    {
+                                        todoList.Update(updateIndex - 1);
+                                        break; // Exit the inner while loop if input is valid
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    }
                                 }
                                 break;
+
                             case "2":
-                                Console.Write("Enter the task number to mark as completed: ");
-                                if (int.TryParse(Console.ReadLine(), out int taskIndex))
+                                while (true)
                                 {
-                                    todoList.Mark(taskIndex - 1);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    Console.Write("Enter the task number to mark as completed: ");
+                                    if (int.TryParse(Console.ReadLine(), out int taskIndex))
+                                    {
+                                        todoList.Mark(taskIndex - 1);
+                                        break; // Exit the inner while loop if input is valid
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    }
                                 }
                                 break;
+
                             case "3":
-                                Console.Write("Enter the task number to remove: ");
-                                if (int.TryParse(Console.ReadLine(), out int removeIndex))
+                                while (true)
                                 {
-                                    todoList.Remove(removeIndex - 1);
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    Console.Write("Enter the task number to remove: ");
+                                    if (int.TryParse(Console.ReadLine(), out int removeIndex))
+                                    {
+                                        todoList.Remove(removeIndex - 1);
+                                        break; // Exit the inner while loop if input is valid
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Invalid input. Please enter a valid task number.");
+                                    }
                                 }
                                 break;
+
                             default:
                                 Console.WriteLine("Invalid choice. Please try again");
                                 break;
                         }
                         break;
+
                     case "4":
                         Console.Write("Enter the file path to save tasks: ");
                         string saveFilePath = Console.ReadLine();

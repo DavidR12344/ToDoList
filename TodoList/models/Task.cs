@@ -24,6 +24,8 @@ namespace TodoList.models
             Project = project;
         }
 
+        //Properties
+
         public string Title { get; set; } // Get and set method for Title 
         public DateTime DueDate { get; set; } // Get and set method for due date
 

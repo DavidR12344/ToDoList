@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TodoList.interfaces;
+using TodoList.Interfaces;
 using Task = TodoList.models.Task;
 
 namespace TodoList.controllers
@@ -190,7 +190,7 @@ namespace TodoList.controllers
         /// Sort task by date and display it
         /// </summary>
 
-        public void sortByDate()
+        public void SortByDate()
         {
             tasks.Sort((t1, t2) => t1.DueDate.CompareTo(t2.DueDate));
             Console.WriteLine("Tasks sorted by due date.");
@@ -201,7 +201,7 @@ namespace TodoList.controllers
         /// Sort task by project annd display it
         /// </summary>
 
-        public void sortByProject()
+        public void SortByProject()
         {
             tasks.Sort((t1, t2) => t1.Project.CompareTo(t2.Project));
             Console.WriteLine("Tasks sorted by project.");
