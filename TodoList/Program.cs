@@ -11,10 +11,6 @@ namespace TodoList
         {
             ITodo todoList = new Todo();
             string enviromentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            Console.WriteLine("Enter file path to load task or press Enter to continue: ");
-            string filePath = Console.ReadLine();
-            string loadfilePath = Path.Combine(enviromentPath, filePath);
-            todoList.ReadFromFile(loadfilePath);
             bool exit = false;
             while (!exit)
             {
@@ -143,14 +139,37 @@ namespace TodoList
                                 break;
                         }
                         break;
-
                     case "4":
-                        Console.Write("Enter the file path to save tasks: ");
+                        Console.Write("Save and Quit: ");
                         string saveFilePath = Console.ReadLine();
-                        string enviroment = Path.Combine(enviromentPath, saveFilePath);
-                        todoList.SaveToFile(enviroment);
-                        exit = true;
+                        string environment = Path.Combine(enviromentPath, saveFilePath);
+                        todoList.SaveToFile(environment);
+                        Console.WriteLine("Tasks saved successfully.");
+                        Console.WriteLine(">> Do you want to load tasks from a file or quit the application?");
+                        Console.WriteLine(">> (1) Load tasks from a file");
+                        Console.WriteLine(">> (2) Quit application");
+                        string quitOption = Console.ReadLine();
+
+                        switch (quitOption)
+                        {
+                            case "1":
+                                Console.WriteLine(">> Enter file path to load tasks from or press Enter to continue: ");
+                                string loadOption = Console.ReadLine();
+                                if (!string.IsNullOrWhiteSpace(loadOption))
+                                {
+                                    string loadFilePath = Path.Combine(enviromentPath, loadOption);
+                                    todoList.ReadFromFile(loadFilePath);
+                                }
+                                break;
+                            case "2":
+                                exit = true;
+                                break;
+                            default:
+                                Console.WriteLine("Invalid choice. Please try again.");
+                                break;
+                        }
                         break;
+
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
                         break;
