@@ -14,7 +14,7 @@ namespace TodoList
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine(">> Welcome to ToDoly");
+                Console.WriteLine(">> Welcome to ToDoLy");
                 Console.WriteLine(">> You have X and Y task are done!");
                 Console.WriteLine(">> Pick an option: ");
                 Console.WriteLine(">> (1) Show Task list by date or project");
