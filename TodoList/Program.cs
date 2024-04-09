@@ -45,37 +45,67 @@ namespace TodoList
 
                         break;
                     case "2":
+                        string taskTitle;
+                        string project = "";
+                        DateTime dueDate;
+                        bool status = false;
+
                         while (true)
                         {
                             Console.Write("Enter title: ");
-                            string taskTitle = Console.ReadLine();
+                            taskTitle = Console.ReadLine();
                             if (string.IsNullOrWhiteSpace(taskTitle))
                             {
                                 Console.WriteLine("Task title cannot be empty. Please enter a valid task title.");
+                                continue;
                             }
-                            else
+
+                            while (true)
                             {
                                 Console.Write("Enter the due date (yyyy-MM-dd): ");
-                                if (DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime dueDate))
-                                {
-                                    Console.Write("Is the task complete? (true/false): ");
-                                    if (bool.TryParse(Console.ReadLine(), out bool status))
-                                    {
-                                        Console.Write("Enter project: ");
-                                        string project = Console.ReadLine();
-                                        todoList.Add(taskTitle, dueDate, status, project);
-                                        break; // Exit the while loop if all inputs are valid
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Invalid input for status. Please enter true or false.");
-                                    }
-                                }
-                                else
+                                if (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out dueDate))
                                 {
                                     Console.WriteLine("Invalid date format. Please enter a valid date.");
                                 }
+                                else
+                                {
+                                    break;
+                                }
                             }
+
+                            while (true)
+                            {
+                                Console.Write("Is the task complete? (true/false): ");
+                                if (!bool.TryParse(Console.ReadLine(), out status))
+                                {
+                                    Console.WriteLine("Invalid input for status. Please enter true or false.");
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+
+                            while (true)
+                            {
+                                Console.Write("Enter project: ");
+                                project = Console.ReadLine();
+
+                                // Allow skipping project
+                                if (string.IsNullOrWhiteSpace(project))
+                                {
+                                    Console.WriteLine("Task project cannot be empty. Please enter a valid project.");
+                                }
+                                else
+                                {
+                                    // You may add additional validation for project input here if needed
+                                    break;
+                                }
+                            }
+
+                            // Add the task after all inputs are valid
+                            todoList.Add(taskTitle, dueDate, status, project);
+                            break; // Exit the while loop if all inputs are valid
                         }
                         break;
                     case "3":
@@ -160,7 +190,7 @@ namespace TodoList
                                 exit = true; // Exiting the application without saving
                                 break;
                             case "3":
-                                Console.WriteLine(">> Enter file path to load tasks: ");
+                                Console.WriteLine(">> Enter file path to load task: ");
                                 string loadOption = Console.ReadLine();
                                 if (!string.IsNullOrWhiteSpace(loadOption))
                                 {
