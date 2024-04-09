@@ -32,7 +32,9 @@ namespace TodoList.controllers
         {
             Task task = new Task(title, dueDate, status, project);
             tasks.Add(task);
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Added new task");
+            Console.ResetColor();
         }
 
         /// <summary>
@@ -59,22 +61,29 @@ namespace TodoList.controllers
                         tasks[index].DueDate = newDueDate;
                         tasks[index].Status = newStatus;
                         tasks[index].Project = newProject;
-
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Task updated successfully.");
+                        Console.ResetColor();
                     }
                     else
                     {
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid input for completion status.");
+                        Console.ResetColor();
                     }
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid date format.");
+                    Console.ResetColor();
                 }
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid task index.");
+                Console.ResetColor();
             }
         }
 
@@ -90,7 +99,9 @@ namespace TodoList.controllers
             if (index >= 0 && index < tasks.Count)
             {
                 tasks[index].Status = true;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("Task marked as completed.");
+                Console.ResetColor();
             }
             else
             {
@@ -108,11 +119,15 @@ namespace TodoList.controllers
             if (index >= 0 && index < tasks.Count)
             {
                 tasks.RemoveAt(index);
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Task removed successfully.");
+                Console.ResetColor();
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid task index.");
+                Console.ResetColor();
             }
         }
 
@@ -150,16 +165,22 @@ namespace TodoList.controllers
                             }
                         }
                     }
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Tasks loaded from file successfully!");
+                    Console.ResetColor();
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("File not found.");
+                    Console.ResetColor();
                 }
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error loading tasks from file: {ex.Message}");
+                Console.ResetColor();
             }
         }
 
@@ -185,11 +206,15 @@ namespace TodoList.controllers
                         writer.WriteLine($"{task.Title},{(task.Status ? "Completed" : "Pending")},{task.DueDate:yyyy-MM-dd},{task.Project}");
                     }
                 }
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Saved to file!");
+                Console.ResetColor();
             }
             catch (Exception ex)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Error saving to file: {ex.Message}");
+                Console.ResetColor();
             }
         }
 
@@ -200,7 +225,9 @@ namespace TodoList.controllers
         public void SortByDate()
         {
             tasks.Sort((t1, t2) => t1.DueDate.CompareTo(t2.DueDate));
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Tasks sorted by due date.");
+            Console.ResetColor();
             View();
         }
 
@@ -211,7 +238,9 @@ namespace TodoList.controllers
         public void SortByProject()
         {
             tasks.Sort((t1, t2) => t1.Project.CompareTo(t2.Project));
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("Tasks sorted by project.");
+            Console.ResetColor();
             View();
         }
 

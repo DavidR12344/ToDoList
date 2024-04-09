@@ -56,7 +56,9 @@ namespace TodoList
                             taskTitle = Console.ReadLine();
                             if (string.IsNullOrWhiteSpace(taskTitle))
                             {
+                                Console.ForegroundColor = ConsoleColor.Red;
                                 Console.WriteLine("Task title cannot be empty. Please enter a valid task title.");
+                                Console.ResetColor();
                                 continue;
                             }
 
@@ -65,7 +67,9 @@ namespace TodoList
                                 Console.Write("Enter the due date (yyyy-MM-dd): ");
                                 if (!DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out dueDate))
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Invalid date format. Please enter a valid date.");
+                                    Console.ResetColor();
                                 }
                                 else
                                 {
@@ -78,7 +82,9 @@ namespace TodoList
                                 Console.Write("Is the task complete? (true/false): ");
                                 if (!bool.TryParse(Console.ReadLine(), out status))
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Invalid input for status. Please enter true or false.");
+                                    Console.ResetColor();
                                 }
                                 else
                                 {
@@ -94,7 +100,9 @@ namespace TodoList
                                 // Allow skipping project
                                 if (string.IsNullOrWhiteSpace(project))
                                 {
+                                    Console.ForegroundColor = ConsoleColor.Red;
                                     Console.WriteLine("Task project cannot be empty. Please enter a valid project.");
+                                    Console.ResetColor();
                                 }
                                 else
                                 {
