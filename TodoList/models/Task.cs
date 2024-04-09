@@ -14,13 +14,13 @@ namespace TodoList.models
         /// </summary>
         /// <param name="title"></param>
         /// <param name="dueDate"></param>
-        /// <param name="isComplete"></param>
+        /// <param name="status"></param>
         /// <param name="project"></param>
-        public Task(string title, DateTime dueDate, bool isComplete, string project)
+        public Task(string title, DateTime dueDate, bool status, string project)
         {
             Title = title;
             DueDate = dueDate;
-            IsComplete = isComplete;
+            Status = status;
             Project = project;
         }
 
@@ -29,7 +29,7 @@ namespace TodoList.models
         public string Title { get; set; } // Get and set method for Title 
         public DateTime DueDate { get; set; } // Get and set method for due date
 
-        public bool IsComplete { get; set; } // Get and set method for status
+        public bool Status { get; set; } // Get and set method for status
 
         public string Project { get; set; } // Get and set method for Project
 

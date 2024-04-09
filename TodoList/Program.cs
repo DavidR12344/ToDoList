@@ -15,9 +15,9 @@ namespace TodoList
             while (!exit)
             {
                 Console.WriteLine(">> Welcome to ToDoLy");
-                Console.WriteLine(">> You have X and Y task are done!");
+                Console.WriteLine(">> You have X tasks todo and Y tasks are done!");
                 Console.WriteLine(">> Pick an option: ");
-                Console.WriteLine(">> (1) Show Task list by date or project");
+                Console.WriteLine(">> (1) Show Task list (by date or project)");
                 Console.WriteLine(">> (2) Add new Task");
                 Console.WriteLine(">> (3) Edit Task (update, mark as done, remove)");
                 Console.WriteLine(">> (4) Save and Quit");
@@ -59,11 +59,11 @@ namespace TodoList
                                 if (DateTime.TryParseExact(Console.ReadLine(), "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out DateTime dueDate))
                                 {
                                     Console.Write("Is the task complete? (true/false): ");
-                                    if (bool.TryParse(Console.ReadLine(), out bool isComplete))
+                                    if (bool.TryParse(Console.ReadLine(), out bool status))
                                     {
                                         Console.Write("Enter project: ");
                                         string project = Console.ReadLine();
-                                        todoList.Add(taskTitle, dueDate, isComplete, project);
+                                        todoList.Add(taskTitle, dueDate, status, project);
                                         break; // Exit the while loop if all inputs are valid
                                     }
                                     else
@@ -140,29 +140,33 @@ namespace TodoList
                         }
                         break;
                     case "4":
-                        Console.Write("Save and Quit: ");
-                        string saveFilePath = Console.ReadLine();
-                        string environment = Path.Combine(enviromentPath, saveFilePath);
-                        todoList.SaveToFile(environment);
-                        Console.WriteLine("Tasks saved successfully.");
-                        Console.WriteLine(">> Do you want to load tasks from a file or quit the application?");
-                        Console.WriteLine(">> (1) Load tasks from a file");
-                        Console.WriteLine(">> (2) Quit application");
-                        string quitOption = Console.ReadLine();
+                        Console.WriteLine(">> Save and Quit?");
+                        Console.WriteLine(">> (1) Save and Quit");
+                        Console.WriteLine(">> (2) Quit without saving");
+                        Console.WriteLine(">> (3) Load tasks from a file");
+                        string saveOrQuitOption = Console.ReadLine();
 
-                        switch (quitOption)
+                        switch (saveOrQuitOption)
                         {
                             case "1":
-                                Console.WriteLine(">> Enter file path to load tasks from or press Enter to continue: ");
+                                Console.Write("Enter file path to save tasks: ");
+                                string saveFilePath = Console.ReadLine();
+                                string environment = Path.Combine(enviromentPath, saveFilePath);
+                                todoList.SaveToFile(environment);
+                                Console.WriteLine("Tasks saved successfully.");
+                                exit = true; // Exiting the application
+                                break;
+                            case "2":
+                                exit = true; // Exiting the application without saving
+                                break;
+                            case "3":
+                                Console.WriteLine(">> Enter file path to load tasks: ");
                                 string loadOption = Console.ReadLine();
                                 if (!string.IsNullOrWhiteSpace(loadOption))
                                 {
                                     string loadFilePath = Path.Combine(enviromentPath, loadOption);
                                     todoList.ReadFromFile(loadFilePath);
                                 }
-                                break;
-                            case "2":
-                                exit = true;
                                 break;
                             default:
                                 Console.WriteLine("Invalid choice. Please try again.");

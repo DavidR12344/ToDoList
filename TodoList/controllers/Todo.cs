@@ -26,11 +26,11 @@ namespace TodoList.controllers
         /// </summary>
         /// <param name="title"></param>
         /// <param name="dueDate"></param>
-        /// <param name="isComplete"></param>
+        /// <param name="status"></param>
         /// <param name="project"></param>
-        public void Add(string title, DateTime dueDate, bool isComplete, string project)
+        public void Add(string title, DateTime dueDate, bool status, string project)
         {
-            Task task = new Task(title, dueDate, isComplete, project);
+            Task task = new Task(title, dueDate, status, project);
             tasks.Add(task);
             Console.WriteLine("Added new task");
         }
@@ -50,14 +50,14 @@ namespace TodoList.controllers
                 if (DateTime.TryParse(Console.ReadLine(), out DateTime newDueDate))
                 {
                     Console.WriteLine("Is task complete? (true/false):");
-                    if (bool.TryParse(Console.ReadLine(), out bool newIsComplete))
+                    if (bool.TryParse(Console.ReadLine(), out bool newStatus))
                     {
                         Console.WriteLine("Enter new project:");
                         string newProject = Console.ReadLine();
 
                         tasks[index].Title = newTitle;
                         tasks[index].DueDate = newDueDate;
-                        tasks[index].IsComplete = newIsComplete;
+                        tasks[index].Status = newStatus;
                         tasks[index].Project = newProject;
 
                         Console.WriteLine("Task updated successfully.");
@@ -89,7 +89,7 @@ namespace TodoList.controllers
         {
             if (index >= 0 && index < tasks.Count)
             {
-                tasks[index].IsComplete = true;
+                tasks[index].Status = true;
                 Console.WriteLine("Task marked as completed.");
             }
             else
@@ -124,6 +124,12 @@ namespace TodoList.controllers
         {
             try
             {
+                // Check if the file exists without the .txt extension
+                if (!File.Exists(path) && File.Exists(path + ".txt"))
+                {
+                    path += ".txt"; // Append .txt extension to the path
+                }
+
                 if (File.Exists(path))
                 {
                     tasks.Clear();
@@ -136,10 +142,10 @@ namespace TodoList.controllers
                             if (parts.Length == 4)
                             {
                                 string title = parts[0];
-                                bool isCompleted = (parts[1].ToLower() == "complete");
+                                bool status = (parts[1].ToLower() == "complete");
                                 DateTime dueDate = DateTime.ParseExact(parts[2], "yyyy-MM-dd", null);
                                 string project = parts[3];
-                                Task task = new Task(title, dueDate, isCompleted, project);
+                                Task task = new Task(title, dueDate, status, project);
                                 tasks.Add(task);
                             }
                         }
@@ -156,6 +162,7 @@ namespace TodoList.controllers
                 Console.WriteLine($"Error loading tasks from file: {ex.Message}");
             }
         }
+
 
         /// <summary>
         /// Save task to a new file with a specific path
@@ -175,7 +182,7 @@ namespace TodoList.controllers
                 {
                     foreach (var task in tasks)
                     {
-                        writer.WriteLine($"{task.Title},{(task.IsComplete ? "Completed" : "Pending")},{task.DueDate:yyyy-MM-dd},{task.Project}");
+                        writer.WriteLine($"{task.Title},{(task.Status ? "Completed" : "Pending")},{task.DueDate:yyyy-MM-dd},{task.Project}");
                     }
                 }
                 Console.WriteLine("Saved to file!");
@@ -223,7 +230,7 @@ namespace TodoList.controllers
             {
                 for (int i = 0; i < tasks.Count; i++)
                 {
-                    Console.WriteLine($"{i + 1}. {tasks[i].Title} - {(tasks[i].IsComplete ? "Completed" : "Pending")} - Due Date: {tasks[i].DueDate.ToString("yyyy-MM-dd")} - Project: {tasks[i].Project}");
+                    Console.WriteLine($"{i + 1}. {tasks[i].Title} - {(tasks[i].Status ? "Completed" : "Pending")} - Due Date: {tasks[i].DueDate.ToString("yyyy-MM-dd")} - Project: {tasks[i].Project}");
                 }
             }
         }

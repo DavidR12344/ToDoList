@@ -6,7 +6,7 @@ namespace TodoList.Interfaces // Changed namespace to match convention
     public interface ITodo
     {
         // Method to add a new task to the to-do list
-        void Add(string title, DateTime dueDate, bool isComplete, string project);
+        void Add(string title, DateTime dueDate, bool status, string project);
 
         // Method to update an existing task in the to-do list based on its index
         void Update(int index);
